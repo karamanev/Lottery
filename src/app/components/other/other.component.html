@@ -1,0 +1,35 @@
+<div class="container">
+
+
+  <fieldset>
+
+<form #searchEntrance="ngForm" (ngSubmit)="checkByNumber()">
+    <div class="form-group">
+      <label for="number">Enter the number to check</label>
+      <input 
+      type="number" 
+      required
+      pattern="^1?[0-9]{0,2}$"
+      name="number"
+      [(ngModel)] = "searchEntrance.number"
+      #number="ngModel"
+      class="form-control" 
+      id="number" 
+      placeholder="1-100">
+
+      <div class="text-danger" [hidden]="number.valid || number.pristine">Entered number must be between 1 and 100!</div>
+
+      <button class="btn btn-primary"  [disabled]="searchEntrance.form.invalid" type="submit">Check number</button>
+      
+    </div>
+</form>
+
+<button class="btn btn-primary" on-click="checkCountOfEntrances();">Check entrances</button>
+<div> {{countOtEntrances$ | async}}</div>
+
+<button class="btn btn-primary" on-click="pickTheWinner()">Choose the winner</button>
+
+</fieldset>
+
+
+</div>

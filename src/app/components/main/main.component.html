@@ -1,0 +1,43 @@
+<div class="container">
+
+    <form #entrance="ngForm" *ngIf="accounts$ ; else alert"  (ngSubmit)="enter()">
+      <fieldset>
+        <div class="form-group">
+          <label for="publicKey">Please choose your public key</label>
+
+          <select 
+          class="form-control" 
+          id="publicKey" 
+          name="publicKey"
+          [(ngModel)] = "entrance.key"
+          #publicKey="ngModel">
+
+            <option *ngFor="let account of accounts$ | async"> {{account}} </option>
+
+          </select>
+
+          <label for="number">Please enter your number between 1 and 100</label>
+
+          <input 
+          type="number" 
+          required
+          pattern="^1?[0-9]{0,2}$"
+          name="number"
+          [(ngModel)] = "entrance.number"
+          #number="ngModel"
+          class="form-control" 
+          id="number" 
+          placeholder="1-100">
+
+          <div class="text-danger" [hidden]="number.valid || number.pristine">Entered number must be between 1 and 100!</div>
+
+          <button class="btn btn-primary"  [disabled]="entrance.form.invalid" type="submit">Submit</button>
+
+      </div>
+      </fieldset>
+    </form>
+</div>
+
+<ng-template #alert>
+  <label>Please turn on Metamask!</label>
+</ng-template>
