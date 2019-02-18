@@ -1,6 +1,6 @@
 import { Injectable, NgZone, Inject } from '@angular/core';
 import { Entrance } from '../models/entrance';
-import { Observable, BehaviorSubject, Subject, Observer, bindNodeCallback } from 'rxjs';
+import { Observable, BehaviorSubject, bindNodeCallback } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { WEB3 } from './web3';
 import Web3 from 'web3';
@@ -50,17 +50,21 @@ export class EthereumService {
       .then(console.log);
   }
 
-  checkCountOfEntrances(): Observable<number> {
+  checkCountOfEntrances() {
 
-    bindNodeCallback(this.contract
-    .methods.getCountOfEntranses().call())()
+
+
+    var c = bindNodeCallback(this.contract.methods.getCountOfEntranses().call())()
     .pipe(
       tap(res => console.log(res)),
-    ).subscribe()
+      map(ent => this.countSubject.next(Number(ent))
+    ))
 
+console.log(this.countOtEntrances$)
+console.log(this.countSubject)
+console.log(c)
 
-    return this.countOtEntrances$;
-  }
+}
 
   pickTheWinner() {
     let userAccount = (this.subject.value[0])

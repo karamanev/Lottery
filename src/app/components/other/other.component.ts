@@ -3,6 +3,7 @@ import { WEB3 } from '../../services/web3';
 import Web3 from 'web3';
 import { EthereumService } from '../../services/ethereum.service';
 import { SearchEntrance } from 'src/app/models/searchEntrance';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-other',
@@ -12,15 +13,15 @@ import { SearchEntrance } from 'src/app/models/searchEntrance';
 export class OtherComponent implements OnInit {
 
   searchEntrance: SearchEntrance;
-  countOtEntrances$: Observable<number>;
+  countOfEntrances$: Observable<number>;
 
   constructor(@Inject(WEB3) private web3: Web3,
     private ethereumService: EthereumService) {
-      this.searchEntrance = new SearchEntrance (0)
-      this.countOtEntrances = ''
+    this.searchEntrance = new SearchEntrance(0)
   }
 
   ngOnInit() {
+    this.countOfEntrances$ = this.ethereumService.countOtEntrances$
   }
 
   checkByNumber() {
