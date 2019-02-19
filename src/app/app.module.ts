@@ -6,18 +6,19 @@ import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
 import { OtherComponent } from './components/other/other.component';
 import { EthereumService } from './services/ethereum.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { NewLotteryComponent } from './components/new-lottery/new-lottery.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    OtherComponent
+    OtherComponent,
+    NewLotteryComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     EthereumService,

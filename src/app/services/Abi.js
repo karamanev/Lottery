@@ -21,12 +21,30 @@ let abi =
 		"name": "determineWinner",
 		"outputs": [
 			{
-				"name": "winningNumber",
+				"name": "number",
 				"type": "uint8"
 			}
 		],
 		"payable": false,
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "checkStatusAndWinner",
+		"outputs": [
+			{
+				"name": "status",
+				"type": "uint8"
+			},
+			{
+				"name": "number",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{

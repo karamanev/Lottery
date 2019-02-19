@@ -5,6 +5,8 @@ import { map, tap } from 'rxjs/operators';
 import { WEB3 } from './web3';
 import Web3 from 'web3';
 import Abi from './Abi';
+import { numberToHex } from 'web3-utils/types';
+import { Status } from '../models/status';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,7 @@ export class EthereumService {
   countOfEntrances$: Observable<number> = new Observable<number>();
 
   constructor(@Inject(WEB3) private web3: Web3) {
-    this.address = '0xe768aaab1adb267f5dc117ccc982ec59396502cf';
+    this.address = '0xfa7f625a6f527c8dd5dc9cb5f32f74514c93505d';
     this.contract = new this.web3.eth.Contract(Abi, this.address);
   }
 
@@ -41,13 +43,14 @@ export class EthereumService {
   }
 
   //TODO Your entrance was received. You can see more about the transaction here.  
+  //TODO Lottery is closed.
+  //TODO Check the winning number.
+  //TODO Create new lottery.
 
   checkByNumber(number: number): Observable<string[]> {
-    console.log(number)
     return from(this.contract.methods.getAddressesByNumber(number).call())
       .pipe(
         map(res => res[0]),
-        tap(res => console.log(res))
       )
   }
 
@@ -70,5 +73,14 @@ export class EthereumService {
         tap(res => console.log(res))
       )
 
+  }
+
+  checkStatus():  Observable<Status>{
+    return from(this.contract.methods.checkStatusAndWinner().call())
+      .pipe(
+        map(function (res: Status) {
+          return {status: (res.status = 0? 'opened' : 'closed'), number: Number(res.number)}
+        } ),
+      )
   }
 }

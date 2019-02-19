@@ -1,9 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { WEB3 } from '../../services/web3';
-import Web3 from 'web3';
 import { EthereumService } from '../../services/ethereum.service';
 import { SearchEntrance } from 'src/app/models/searchEntrance';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
+import { Status } from 'src/app/models/status';
 
 @Component({
   selector: 'app-other',
@@ -15,14 +14,12 @@ export class OtherComponent implements OnInit {
   searchEntrance: SearchEntrance;
   countOfEntrances$: Observable<number>;
   entrancesByNumber$: Observable<string[]>;
-  
-  constructor(@Inject(WEB3) private web3: Web3,
-    private ethereumService: EthereumService)
-    {
-    this.searchEntrance = new SearchEntrance(0)
-  }
+  status$: Observable<Status>;
+  opened$: Observable<string>;
 
-  ngOnInit() {}
+  constructor(private ethereumService: EthereumService) { this.searchEntrance = new SearchEntrance(0) }
+
+  ngOnInit() { }
 
   checkByNumber() {
     this.entrancesByNumber$ = this.ethereumService.checkByNumber(this.searchEntrance.number);
@@ -33,7 +30,11 @@ export class OtherComponent implements OnInit {
   }
 
   pickTheWinner() {
-    console.log('asas')
     this.ethereumService.pickTheWinner();
   }
+
+  checkStatus() {
+    this.status$ = this.ethereumService.checkStatus()
+  }
 }
+

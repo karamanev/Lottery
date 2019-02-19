@@ -16,12 +16,12 @@
 
           </select>
 
-          <label for="number">Enter your number between 1 and 100</label>
+          <label for="number">Enter your number between 1 and 10</label>
 
           <input 
           type="number" 
           required
-          pattern="^[1-9][0-9]?$|^100$"
+          pattern="^[1-9]?$|^10$"
           name="number"
           [(ngModel)] = "entrance.number"
           #number="ngModel"
@@ -29,7 +29,7 @@
           id="number" 
           placeholder="1-100">
 
-          <div class="text-danger" [hidden]="number.valid || number.pristine">Entered number must be between 1 and 100!</div>
+          <div class="text-danger" [hidden]="number.valid || number.pristine">Entered number must be between 1 and 10!</div>
 
           <button class="btn btn-primary"  [disabled]="e.invalid" type="submit">Submit</button>
 
