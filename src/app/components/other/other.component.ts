@@ -14,24 +14,22 @@ export class OtherComponent implements OnInit {
 
   searchEntrance: SearchEntrance;
   countOfEntrances$: Observable<number>;
-
+  entrancesByNumber$: Observable<string[]>;
+  
   constructor(@Inject(WEB3) private web3: Web3,
-    private ethereumService: EthereumService) {
+    private ethereumService: EthereumService)
+    {
     this.searchEntrance = new SearchEntrance(0)
   }
 
-  ngOnInit() {
-    this.countOfEntrances$ = this.ethereumService.countOtEntrances$
-  }
+  ngOnInit() {}
 
   checkByNumber() {
-    console.log(this.searchEntrance.number)
-    this.ethereumService.checkByNumber(this.searchEntrance.number);
+    this.entrancesByNumber$ = this.ethereumService.checkByNumber(this.searchEntrance.number);
   }
 
   checkCountOfEntrances() {
-    console.log('asas')
-    this.ethereumService.checkCountOfEntrances();
+    this.countOfEntrances$ = this.ethereumService.checkCountOfEntrances();
   }
 
   pickTheWinner() {

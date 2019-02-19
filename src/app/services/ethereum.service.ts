@@ -1,6 +1,6 @@
 import { Injectable, NgZone, Inject } from '@angular/core';
 import { Entrance } from '../models/entrance';
-import { Observable, BehaviorSubject, bindNodeCallback } from 'rxjs';
+import { Observable, BehaviorSubject, bindNodeCallback, from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { WEB3 } from './web3';
 import Web3 from 'web3';
@@ -15,10 +15,7 @@ export class EthereumService {
   accounts$: Observable<string[]> = this.subject.asObservable();
   address: string;
   contract: any;
-
-  private countSubject = new BehaviorSubject(0);
-  countOtEntrances$: Observable<number> = this.countSubject.asObservable();
-
+  countOfEntrances$: Observable<number> = new Observable<number>();
 
   constructor(@Inject(WEB3) private web3: Web3) {
     this.address = '0xe768aaab1adb267f5dc117ccc982ec59396502cf';
@@ -30,47 +27,48 @@ export class EthereumService {
       .pipe(
         map((accounts: string[]) => this.subject.next(accounts)),
       ).subscribe()
-
     return this.accounts$
   }
 
   enter(entrance: Entrance) {
-    let userAccount = (this.subject.value[0])
-    return this.contract
+    from(this.contract
       .methods.enter(entrance.number)
-      .send({ from: userAccount, value: this.web3.utils.toWei("0.001", "ether") })
-      .then(console.log).catch(err => console.log(err));
+      .send({ from: entrance.key, value: this.web3.utils.toWei("0.001", "ether") }))
+      .pipe(
+        tap(res => console.log(res))
+      ).subscribe()
+
   }
 
-  checkByNumber(number: number): string[] {
+  //TODO Your entrance was received. You can see more about the transaction here.  
+
+  checkByNumber(number: number): Observable<string[]> {
     console.log(number)
-    return this.contract
-      .methods.getAddressesByNumber(2)
-      .call()
-      .then(console.log);
+    return from(this.contract.methods.getAddressesByNumber(number).call())
+      .pipe(
+        map(res => res[0]),
+        tap(res => console.log(res))
+      )
   }
 
-  checkCountOfEntrances() {
+  checkCountOfEntrances(): Observable<number> {
+    return from(this.contract.methods.getCountOfEntranses().call())
+      .pipe(
+        map(res => res[0])
+      )
+  }
 
-
-
-    var c = bindNodeCallback(this.contract.methods.getCountOfEntranses().call())()
-    .pipe(
-      tap(res => console.log(res)),
-      map(ent => this.countSubject.next(Number(ent))
-    ))
-
-console.log(this.countOtEntrances$)
-console.log(this.countSubject)
-console.log(c)
-
-}
-
-  pickTheWinner() {
+  pickTheWinner(): Observable<number> {
     let userAccount = (this.subject.value[0])
-    return this.contract
-    .methods.determineWinner()
-    .send({ from: userAccount })
-    .then(console.log).catch(err => console.log(err));
+
+    return from(this.contract
+      .methods.determineWinner()
+      .send({ from: userAccount }))
+      .pipe(
+        map (res => res[0]),
+        map(res => Number(res)),
+        tap(res => console.log(res))
+      )
+
   }
 }

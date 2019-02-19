@@ -1,9 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { WEB3 } from '../../services/web3';
-import Web3 from 'web3';
 import { Entrance } from 'src/app/models/entrance';
 import { EthereumService } from '../../services/ethereum.service';
 import { Observable } from 'rxjs'
+import { map, tap } from 'rxjs/operators';
 
 
 
@@ -16,9 +15,9 @@ export class MainComponent implements OnInit {
 
   accounts$: Observable<string[]>;
   entrance: Entrance;
+  hasAccount: boolean
 
   constructor(
-    @Inject(WEB3) private web3: Web3,
     private ethereumService: EthereumService) {
     this.entrance = new Entrance('', 0);
   }

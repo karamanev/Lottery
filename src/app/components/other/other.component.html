@@ -1,15 +1,14 @@
 <div class="container">
 
-
   <fieldset>
 
-<form #searchEntrance="ngForm" (ngSubmit)="checkByNumber()">
+  <form #form="ngForm" (ngSubmit)="checkByNumber()">
     <div class="form-group">
       <label for="number">Enter the number to check</label>
       <input 
       type="number" 
       required
-      pattern="^1?[0-9]{0,2}$"
+      pattern="^[1-9][0-9]?$|^100$"
       name="number"
       [(ngModel)] = "searchEntrance.number"
       #number="ngModel"
@@ -19,15 +18,20 @@
 
       <div class="text-danger" [hidden]="number.valid || number.pristine">Entered number must be between 1 and 100!</div>
 
-      <button class="btn btn-primary"  [disabled]="searchEntrance.form.invalid" type="submit">Check number</button>
+      <button class="btn btn-primary"  [disabled]="form.invalid" type="submit">Check number</button>
       
     </div>
-</form>
+  </form>
 
-<button class="btn btn-primary" on-click="checkCountOfEntrances();">Check entrances</button>
-<div> {{countOtEntrances$ | async}}</div>
+      <button class="btn btn-primary" on-click="checkCountOfEntrances();">Check entrances</button>
+      <button class="btn btn-primary" on-click="pickTheWinner()">Choose the winner</button>
 
-<button class="btn btn-primary" on-click="pickTheWinner()">Choose the winner</button>
+      <div *ngIf="countOfEntrances$ | async as count" class="numberDiv"> Number of entrances in the lottery: {{count}}</div>
+      <div *ngIf="entrancesByNumber$ | async as countNum$" class="numberDiv"> Entrances for {{this.searchEntrance.number}}: 
+          <div class="addresses" *ngFor="let count of countNum$ "> {{count}} </div>
+
+
+      </div>
 
 </fieldset>
 
