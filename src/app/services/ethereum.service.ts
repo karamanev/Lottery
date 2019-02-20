@@ -1,11 +1,10 @@
-import { Injectable, NgZone, Inject } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Entrance } from '../models/entrance';
 import { Observable, BehaviorSubject, bindNodeCallback, from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { WEB3 } from './web3';
 import Web3 from 'web3';
 import Abi from './Abi';
-import { numberToHex } from 'web3-utils/types';
 import { Status } from '../models/status';
 
 @Injectable({
@@ -20,7 +19,7 @@ export class EthereumService {
   countOfEntrances$: Observable<number> = new Observable<number>();
 
   constructor(@Inject(WEB3) private web3: Web3) {
-    this.address = '0xfa7f625a6f527c8dd5dc9cb5f32f74514c93505d';
+    this.address = '0x8698248c897413e8bFB84EA5953CC14CCA588638';
     this.contract = new this.web3.eth.Contract(Abi, this.address);
   }
 
@@ -79,7 +78,7 @@ export class EthereumService {
     return from(this.contract.methods.checkStatusAndWinner().call())
       .pipe(
         map(function (res: Status) {
-          return {status: (res.status = 0? 'opened' : 'closed'), number: Number(res.number)}
+          return {status: (Number(res.status) === 0 ? 'opened' : 'closed'), number: Number(res.number)}
         } ),
       )
   }

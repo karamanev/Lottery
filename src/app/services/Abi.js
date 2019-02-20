@@ -1,5 +1,4 @@
 let abi =
-
 [
 	{
 		"constant": true,
