@@ -43,7 +43,6 @@ export class EthereumService {
 
   //TODO Your entrance was received. You can see more about the transaction here.  
   //TODO Lottery is closed.
-  //TODO Check the winning number.
   //TODO Create new lottery.
 
   checkByNumber(number: number): Observable<string[]> {

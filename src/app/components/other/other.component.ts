@@ -16,12 +16,14 @@ export class OtherComponent implements OnInit {
   entrancesByNumber$: Observable<string[]>;
   status$: Observable<Status>;
   opened$: Observable<string>;
-
+  searchedNumber: number;
+  
   constructor(private ethereumService: EthereumService) { this.searchEntrance = new SearchEntrance(0) }
 
   ngOnInit() { }
 
   checkByNumber() {
+    this.searchedNumber = this.searchEntrance.number;
     this.entrancesByNumber$ = this.ethereumService.checkByNumber(this.searchEntrance.number);
   }
 

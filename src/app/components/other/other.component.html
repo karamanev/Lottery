@@ -33,7 +33,7 @@
 
 
       <div *ngIf="countOfEntrances$ | async as count" class="numberDiv"> Number of entrances in the lottery: {{count}}</div>
-      <div *ngIf="entrancesByNumber$ | async as countNum$" class="numberDiv"> Entrances for {{this.searchEntrance.number}}: 
+      <div *ngIf="entrancesByNumber$ | async as countNum$" class="numberDiv"> Entrances for {{searchedNumber}}: 
           <div class="addresses" *ngFor="let count of countNum$ "> {{count}} </div>
       </div>
   </fieldset>
