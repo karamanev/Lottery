@@ -1,0 +1,15 @@
+<div class="container">
+
+  <fieldset>
+    <button class="btn btn-secondary" on-click="startNew()">Start new lottery</button>
+
+    <div *ngIf="address | async as add">
+      <button class="btn btn-secondary" on-click="checkStatus()">Check status of the lottery</button>
+      <button class="btn btn-secondary" on-click="pickTheWinner()">Choose the winner</button>
+      <a  href="https://ropsten.etherscan.io/address/{{add}}"><button class="btn btn-secondary" >Check contract transactions in Etherscan</button></a>
+    </div>
+    <div *ngIf="status$ | async as stat"class="numberDiv"> Lottary status is: {{stat.status}}. <span *ngIf="stat.status === 'closed'"> Winning number is {{(stat.number)}}.</span></div>
+
+
+  </fieldset>
+</div>

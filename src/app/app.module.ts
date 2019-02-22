@@ -1,24 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { EthereumService } from './services/ethereum.service';
+
+import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './components/header/header.component';
 import { MainComponent } from './components/main/main.component';
 import { OtherComponent } from './components/other/other.component';
-import { EthereumService } from './services/ethereum.service';
-import { FormsModule } from '@angular/forms';
-import { NewLotteryComponent } from './components/new-lottery/new-lottery.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     OtherComponent,
-    NewLotteryComponent
+    HeaderComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [
     EthereumService,

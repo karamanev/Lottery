@@ -2,9 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Entrance } from 'src/app/models/entrance';
 import { EthereumService } from '../../services/ethereum.service';
 import { Observable } from 'rxjs'
-import { map, tap } from 'rxjs/operators';
-
-
 
 @Component({
   selector: 'app-main',

@@ -3,7 +3,7 @@ label{
 }
 
 button, label{
-    margin: 40px 40px 40px 0;
+    margin: 20px 20px 20px 0;
 }
 
 .text-danger{
@@ -22,6 +22,7 @@ input::-webkit-inner-spin-button {
 font-size: 30px;
 }
 
-.addresses{
+.address{
     font-size: 12px;
+    margin-bottom: 20px;
 }

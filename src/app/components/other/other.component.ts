@@ -1,7 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EthereumService } from '../../services/ethereum.service';
 import { SearchEntrance } from 'src/app/models/searchEntrance';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Status } from 'src/app/models/status';
 
 @Component({
@@ -29,10 +29,6 @@ export class OtherComponent implements OnInit {
 
   checkCountOfEntrances() {
     this.countOfEntrances$ = this.ethereumService.checkCountOfEntrances();
-  }
-
-  pickTheWinner() {
-    this.ethereumService.pickTheWinner();
   }
 
   checkStatus() {
