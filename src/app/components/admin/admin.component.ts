@@ -18,7 +18,6 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() { 
     this.address$ = this.ethereumService.address$
-    console.log(this.address$)
   }
 
   pickTheWinner(

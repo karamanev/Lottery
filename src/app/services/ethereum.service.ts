@@ -89,9 +89,5 @@ export class EthereumService {
 
     this.contract = new this.web3.eth.Contract(Abi, newContract.options.address);
     this.addressSubject.next(newContract.options.address)
-    this.addressSubject.subscribe();
-
-    console.log(this.addressSubject)
-
   }
 }
