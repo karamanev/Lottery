@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Entrance } from '../models/entrance';
-import { Observable, BehaviorSubject, bindNodeCallback, from } from 'rxjs';
+import { Observable, BehaviorSubject, bindNodeCallback, from, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { WEB3 } from './web3';
 import Web3 from 'web3';
@@ -28,11 +28,16 @@ export class EthereumService {
     private toastr: ToastrService) { }
 
   getAccounts(): Observable<string[]> {
-    bindNodeCallback(this.web3.eth.getAccounts)()
-      .pipe(
-        map((accounts: string[]) => this.subject.next(accounts)),
-      ).subscribe();
-    return this.accounts$;
+    try {
+      bindNodeCallback(this.web3.eth.getAccounts)()
+        .pipe(
+          map((accounts: string[]) => this.subject.next(accounts)),
+        ).subscribe();
+      return this.accounts$;
+    }
+    catch{
+      throwError("Error with metamask")
+    }
   }
 
   enter(entrance: Entrance): void {
@@ -91,7 +96,7 @@ export class EthereumService {
       .send({ from: userAccount, gas: 1000000 });
     console.log("Your new lottery is opened at address: " + newContract.options.address)
     this.toastr.success("Your new lottery is ready!");
-    
+
     this.contract = new this.web3.eth.Contract(Abi, newContract.options.address);
     this.addressSubject.next(newContract.options.address)
   }
