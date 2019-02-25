@@ -27,7 +27,7 @@
       <button class="btn btn-secondary" on-click="checkStatus()">Check status of the lottery</button>
       <button class="btn btn-secondary" on-click="checkCountOfEntrances()">Check entrances</button>
 
-      <div *ngIf="status$ | async as stat"class="numberDiv"> Lottery status is: {{stat.status}} <span *ngIf="stat.status === 'closed'">. Winning number is {{(stat.number)}}.</span></div>
+      <div *ngIf="status$ | async as stat"class="numberDiv"> Lottery status is: {{stat.status}}<span *ngIf="stat.status === 'closed'">. Winning number is {{(stat.number)}}.</span></div>
       <div *ngIf="countOfEntrances$ | async as count" class="numberDiv"> Number of entrances in the lottery: {{count}}</div>
       <div *ngIf="entrancesByNumber$ | async as countNum$" class="numberDiv"> Entrances for {{searchedNumber}}: 
           <div class="address" *ngFor="let count of countNum$ "> {{count}} </div>
