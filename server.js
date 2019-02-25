@@ -5,11 +5,11 @@ const path = require('path');
 const app = express();
 
 // Serve only the static files form the dist directory
-app.use(express.static('./dist/smartlottery'));
+app.use(express.static('./dist/lottery'));
 
 app.get('/*', function(req,res) {
     
-res.sendFile(path.join(__dirname, '/dist/smartlottery'));
+res.sendFile(path.join(__dirname, '/dist/lottery'));
 });
 
 // Start the app by listening on the default Heroku port
