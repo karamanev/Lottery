@@ -1,4 +1,8 @@
-<div class="container">
+<div class="container" >
+
+  <div *ngIf="address$ | async ; else alertNoLot">
+
+  <div class="container">
 
     <form #e="ngForm" *ngIf="(accounts$  | async)?.length > 0 ; else alert"  (ngSubmit)="enter()">
       <fieldset>
@@ -36,10 +40,23 @@
       </div>
       </fieldset>
     </form>
-</div>
+  </div>
 
-<app-other></app-other>
+  <app-other></app-other>
+</div>
+</div> 
+
 
 <ng-template #alert>
-  <label>Please turn on Metamask and refresh the page!</label>
+  <div class="alert alert-danger">
+    <label class="alert-heading">Please turn on Metamask!</label>
+  </div>
 </ng-template>
+
+
+<ng-template #alertNoLot>
+    <div class="alert alert-danger">
+      <label class="alert-heading">Please go to admin tab to create a lottery!</label>
+    </div>
+</ng-template>
+  

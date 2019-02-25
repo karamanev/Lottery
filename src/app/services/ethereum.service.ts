@@ -7,6 +7,7 @@ import Web3 from 'web3';
 import Abi from './Abi';
 import byteCode from './Bytecode';
 import { Status } from '../models/status';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -22,23 +23,28 @@ export class EthereumService {
   contract: any;
   countOfEntrances$: Observable<number> = new Observable<number>();
 
-  constructor(@Inject(WEB3) private web3: Web3) {
-  }
+  constructor(
+    @Inject(WEB3) private web3: Web3,
+    private toastr: ToastrService) { }
 
   getAccounts(): Observable<string[]> {
     bindNodeCallback(this.web3.eth.getAccounts)()
       .pipe(
         map((accounts: string[]) => this.subject.next(accounts)),
-      ).subscribe()
-    return this.accounts$
+      ).subscribe();
+    return this.accounts$;
   }
 
   enter(entrance: Entrance): void {
+    var num = entrance.number;
     from(this.contract
       .methods.enter(entrance.number)
       .send({ from: entrance.key, value: this.web3.utils.toWei("0.001", "ether") }))
       .pipe(
-        tap(() => console.log("Succesfully entered #" + entrance.number))
+        tap(() => {
+          console.log("Successfully entered #" + num);
+          this.toastr.success("You have successfully entered #" + num)
+        }),
       ).subscribe()
   }
 
@@ -46,27 +52,25 @@ export class EthereumService {
     return from(this.contract.methods.getAddressesByNumber(number).call())
       .pipe(
         map(res => res[0]),
-      )
+      );
   }
 
   checkCountOfEntrances(): Observable<number> {
     return from(this.contract.methods.getCountOfEntranses().call())
       .pipe(
         map(res => res[0])
-      )
+      );
   }
 
-  pickTheWinner(): Observable<number> {
-    let userAccount = (this.subject.value[0])
-
-    return from(this.contract
+  pickTheWinner(): void {
+    let userAccount = (this.subject.value[0]);
+    this.contract
       .methods.determineWinner()
-      .send({ from: userAccount }))
-      .pipe(
-        map(res => res[0]),
-        map(res => Number(res)),
-        tap(res => console.log(res))
-      )
+      .send({ from: userAccount })
+      .on('receipt', () => {
+        this.toastr.success("The lottery " + this.addressSubject.value + " is closed!")
+        console.log("The lottery is closed!")
+      })
   }
 
   checkStatus(): Observable<Status> {
@@ -86,7 +90,8 @@ export class EthereumService {
       })
       .send({ from: userAccount, gas: 1000000 });
     console.log("Your new lottery is opened at address: " + newContract.options.address)
-
+    this.toastr.success("Your new lottery is ready!");
+    
     this.contract = new this.web3.eth.Contract(Abi, newContract.options.address);
     this.addressSubject.next(newContract.options.address)
   }

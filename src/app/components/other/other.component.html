@@ -1,6 +1,7 @@
 <div class="container">
 
-  <fieldset>
+
+  <fieldset >
 
     <form #form="ngForm" (ngSubmit)="checkByNumber()">
       <div class="form-group">
@@ -23,8 +24,8 @@
       </div>
     </form>
 
-      <button class="btn btn-secondary" on-click="checkCountOfEntrances()">Check entrances</button>
       <button class="btn btn-secondary" on-click="checkStatus()">Check status of the lottery</button>
+      <button class="btn btn-secondary" on-click="checkCountOfEntrances()">Check entrances</button>
 
       <div *ngIf="status$ | async as stat"class="numberDiv"> Lottary status is: {{stat.status}} <span *ngIf="stat.status === 'closed'">. Winning number is {{(stat.number)}}.</span></div>
       <div *ngIf="countOfEntrances$ | async as count" class="numberDiv"> Number of entrances in the lottery: {{count}}</div>
@@ -33,3 +34,7 @@
       </div>
   </fieldset>
 </div>
+
+
+
+

@@ -8,7 +8,6 @@ button, label{
 
 .text-danger{
     position: absolute;
-    margin-top: 10px;
 }
 
 input::-webkit-outer-spin-button,

@@ -12,7 +12,9 @@ export class MainComponent implements OnInit {
 
   accounts$: Observable<string[]>;
   entrance: Entrance;
-  hasAccount: boolean
+  hasAccount: boolean;
+  address$: Observable<string>;
+  timer: any;
 
   constructor(
     private ethereumService: EthereumService) {
@@ -21,7 +23,24 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.accounts$ = this.ethereumService.getAccounts();
+    this.address$ = this.ethereumService.address$;
   }
+    
+   /* 
+    this.timer = setInterval(() => {
+      this.updateAccounts()
+    }, 3000);
+  }
+
+  ngOnDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+  }
+  updateAccounts(): any {
+    this.accounts$ = this.ethereumService.getAccounts();
+  }*/
+
 
   enter() {
     this.ethereumService.enter(this.entrance);

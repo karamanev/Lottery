@@ -1,15 +1,21 @@
 <div class="container">
-
-  <fieldset>
+  <fieldset *ngIf="(accounts$  | async)?.length > 0 ; else alert">
     <button class="btn btn-secondary" on-click="startNew()">Start new lottery</button>
 
     <div *ngIf="address$ | async as add">
       <button class="btn btn-secondary" on-click="checkStatus()">Check status of the lottery</button>
       <button class="btn btn-secondary" on-click="pickTheWinner()">Choose the winner</button>
-      <a  href="https://ropsten.etherscan.io/address/{{add}}"><button class="btn btn-secondary" >Check contract transactions in Etherscan</button></a>
+      <a target="_blank" rel="noopener noreferrer" href="https://ropsten.etherscan.io/address/{{add}}"><button class="btn btn-secondary" >Check contract transactions in Etherscan</button></a>
     </div>
-    <div *ngIf="status$ | async as stat"class="numberDiv"> Lottary status is: {{stat.status}}. <span *ngIf="stat.status === 'closed'"> Winning number is {{(stat.number)}}.</span></div>
 
+    <div *ngIf="status$ | async as stat"class="numberDiv"> Lottary status is: {{stat.status}}. <span *ngIf="stat.status === 'closed'"> Winning number is {{(stat.number)}}.</span></div>
 
   </fieldset>
 </div>
+
+
+<ng-template #alert>
+    <div class="alert alert-danger">
+      <label class="alert-heading">Please turn on Metamask!</label>
+    </div>
+</ng-template>

@@ -11,13 +11,14 @@ import { Status } from 'src/app/models/status';
 export class AdminComponent implements OnInit {
 
   status$: Observable<Status>;
-  opened$: Observable<string>;
   address$: Observable<string>;
+  accounts$: Observable<string[]>;
 
   constructor(private ethereumService: EthereumService) { }
 
   ngOnInit() { 
-    this.address$ = this.ethereumService.address$
+    this.address$ = this.ethereumService.address$;
+    this.accounts$ = this.ethereumService.getAccounts();
   }
 
   pickTheWinner(
@@ -26,7 +27,7 @@ export class AdminComponent implements OnInit {
   }
 
   checkStatus() {
-    this.status$ = this.ethereumService.checkStatus()
+    this.status$ = this.ethereumService.checkStatus();
   }
 
   startNew(){
