@@ -24,9 +24,7 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.accounts$ = this.ethereumService.getAccounts();
     this.address$ = this.ethereumService.address$;
-  }
-    
-   /* 
+
     this.timer = setInterval(() => {
       this.updateAccounts()
     }, 3000);
@@ -39,8 +37,7 @@ export class MainComponent implements OnInit {
   }
   updateAccounts(): any {
     this.accounts$ = this.ethereumService.getAccounts();
-  }*/
-
+  }
 
   enter() {
     this.ethereumService.enter(this.entrance);

@@ -13,11 +13,25 @@ export class AdminComponent implements OnInit {
   status$: Observable<Status>;
   address$: Observable<string>;
   accounts$: Observable<string[]>;
+  timer: any;
 
   constructor(private ethereumService: EthereumService) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.address$ = this.ethereumService.address$;
+    this.accounts$ = this.ethereumService.getAccounts();
+
+    this.timer = setInterval(() => {
+      this.updateAccounts()
+    }, 3000);
+  }
+
+  ngOnDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+  }
+  updateAccounts(): any {
     this.accounts$ = this.ethereumService.getAccounts();
   }
 
@@ -30,7 +44,7 @@ export class AdminComponent implements OnInit {
     this.status$ = this.ethereumService.checkStatus();
   }
 
-  startNew(){
+  startNew() {
     this.ethereumService.newLottery();
   }
 

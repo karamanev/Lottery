@@ -8,7 +8,7 @@
       <a target="_blank" rel="noopener noreferrer" href="https://ropsten.etherscan.io/address/{{add}}"><button class="btn btn-secondary" >Check contract transactions in Etherscan</button></a>
     </div>
 
-    <div *ngIf="status$ | async as stat"class="numberDiv"> Lottary status is: {{stat.status}}. <span *ngIf="stat.status === 'closed'"> Winning number is {{(stat.number)}}.</span></div>
+    <div *ngIf="status$ | async as stat"class="numberDiv"> Lottery status is: {{stat.status}}. <span *ngIf="stat.status === 'closed'"> Winning number is {{(stat.number)}}.</span></div>
 
   </fieldset>
 </div>
