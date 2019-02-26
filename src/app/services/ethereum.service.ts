@@ -55,8 +55,9 @@ export class EthereumService {
         }),
       ).subscribe(
         () => { },
-        err => this.toastr.error("There is a problem with your entrance. Please try again.")
-      )
+        err => {
+          this.toastr.error("There is a problem with your entrance. Please try again.")
+        })
   }
 
   checkByNumber(number: number): Observable<string[]> {
@@ -84,11 +85,14 @@ export class EthereumService {
           this.toastr.success("The lottery " + this.addressSubject.value + " is closed!")
           console.log("The lottery is closed!")
         })
-    }
+        .on('error', (err) =>{
+          this.toastr.error("There is a problem with picking the winner. Please try again.")
+        })
+    } 
     catch{
-      (
+      (err => {
         this.toastr.error("There is a problem with picking the winner. Please try again.")
-      )
+      })
     }
   }
 
@@ -117,9 +121,10 @@ export class EthereumService {
       this.addressSubject.next(newContract.options.address)
     }
     catch{
-      (
+      (err => {
         this.toastr.error("There is a problem with the new lottery. Please try again.")
-      )
+        console.log(err)
+      })
     }
   }
 }
