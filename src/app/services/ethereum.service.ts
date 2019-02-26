@@ -32,7 +32,10 @@ export class EthereumService {
       bindNodeCallback(this.web3.eth.getAccounts)()
         .pipe(
           map((accounts: string[]) => this.subject.next(accounts)),
-        ).subscribe();
+        ).subscribe(
+          () => { },
+          err => this.toastr.error("There is a problem with getting the accounts. Please try again.")
+        );
       return this.accounts$;
     }
     catch{
@@ -50,7 +53,10 @@ export class EthereumService {
           console.log("Successfully entered #" + num);
           this.toastr.success("You have successfully entered #" + num)
         }),
-      ).subscribe()
+      ).subscribe(
+        () => { },
+        err => this.toastr.error("There is a problem with your entrance. Please try again.")
+      )
   }
 
   checkByNumber(number: number): Observable<string[]> {
@@ -69,13 +75,21 @@ export class EthereumService {
 
   pickTheWinner(): void {
     let userAccount = (this.subject.value[0]);
-    this.contract
-      .methods.determineWinner()
-      .send({ from: userAccount })
-      .on('receipt', () => {
-        this.toastr.success("The lottery " + this.addressSubject.value + " is closed!")
-        console.log("The lottery is closed!")
-      })
+
+    try {
+      this.contract
+        .methods.determineWinner()
+        .send({ from: userAccount })
+        .on('receipt', () => {
+          this.toastr.success("The lottery " + this.addressSubject.value + " is closed!")
+          console.log("The lottery is closed!")
+        })
+    }
+    catch{
+      (
+        this.toastr.error("There is a problem with picking the winner. Please try again.")
+      )
+    }
   }
 
   checkStatus(): Observable<Status> {
@@ -88,16 +102,24 @@ export class EthereumService {
   }
 
   async newLottery() {
-    let userAccount = (this.subject.value[0])
-    const newContract = await new this.web3.eth.Contract(Abi)
-      .deploy({
-        data: byteCode,
-      })
-      .send({ from: userAccount, gas: 1000000 });
-    console.log("Your new lottery is opened at address: " + newContract.options.address)
-    this.toastr.success("Your new lottery is ready!");
 
-    this.contract = new this.web3.eth.Contract(Abi, newContract.options.address);
-    this.addressSubject.next(newContract.options.address)
+    try {
+      let userAccount = (this.subject.value[0])
+      const newContract = await new this.web3.eth.Contract(Abi)
+        .deploy({
+          data: byteCode,
+        })
+        .send({ from: userAccount, gas: 1000000 });
+      console.log("Your new lottery is opened at address: " + newContract.options.address)
+      this.toastr.success("Your new lottery is ready!");
+
+      this.contract = new this.web3.eth.Contract(Abi, newContract.options.address);
+      this.addressSubject.next(newContract.options.address)
+    }
+    catch{
+      (
+        this.toastr.error("There is a problem with the new lottery. Please try again.")
+      )
+    }
   }
 }
