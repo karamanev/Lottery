@@ -4,7 +4,7 @@
 
     <div *ngIf="address$ | async as add">
       <button class="btn btn-secondary" on-click="checkStatus()">Check status of the lottery</button>
-      <button class="btn btn-secondary" on-click="pickTheWinner()">Choose the winner</button>
+      <button class="btn btn-secondary" on-click="pickTheWinner()">Pick the winner</button>
       <a target="_blank" rel="noopener noreferrer" href="https://ropsten.etherscan.io/address/{{add}}"><button class="btn btn-secondary" >Check contract transactions in Etherscan</button></a>
     </div>
 

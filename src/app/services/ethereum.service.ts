@@ -47,7 +47,7 @@ export class EthereumService {
     var num = entrance.number;
     from(this.contract
       .methods.enter(entrance.number)
-      .send({ from: entrance.key, value: this.web3.utils.toWei("0.001", "ether") }))
+      .send({ from: this.subject.value[0], value: this.web3.utils.toWei("0.001", "ether") }))
       .pipe(
         tap(() => {
           console.log("Successfully entered #" + num);
@@ -77,23 +77,18 @@ export class EthereumService {
   pickTheWinner(): void {
     let userAccount = (this.subject.value[0]);
 
-    try {
-      this.contract
-        .methods.determineWinner()
-        .send({ from: userAccount })
-        .on('receipt', () => {
-          this.toastr.success("The lottery " + this.addressSubject.value + " is closed!")
-          console.log("The lottery is closed!")
-        })
-        .on('error', (err) =>{
-          this.toastr.error("There is a problem with picking the winner. Please try again.")
-        })
-    } 
-    catch{
-      (err => {
+    from(this.contract
+      .methods.determineWinner()
+      .send({ from: userAccount })
+      .on('receipt', () => {
+        this.toastr.success("The lottery " + this.addressSubject.value + " is closed!")
+        console.log("The lottery is closed!")
+      })
+    ).subscribe(
+      () => { },
+      err => {
         this.toastr.error("There is a problem with picking the winner. Please try again.")
       })
-    }
   }
 
   checkStatus(): Observable<Status> {
@@ -106,7 +101,6 @@ export class EthereumService {
   }
 
   async newLottery() {
-
     try {
       let userAccount = (this.subject.value[0])
       const newContract = await new this.web3.eth.Contract(Abi)
@@ -123,7 +117,6 @@ export class EthereumService {
     catch{
       (err => {
         this.toastr.error("There is a problem with the new lottery. Please try again.")
-        console.log(err)
       })
     }
   }
