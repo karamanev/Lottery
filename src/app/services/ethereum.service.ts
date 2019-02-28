@@ -90,6 +90,11 @@ export class EthereumService {
       return;
     }
 
+    if (this.opened === false) {
+      this.toastr.error("The lottery is already closed!")
+      return;
+    }
+
     this.opened = false;
     from(this.contract
       .methods.determineWinner()
