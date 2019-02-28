@@ -22,6 +22,8 @@ export class EthereumService {
 
   contract: any;
   countOfEntrances$: Observable<number> = new Observable<number>();
+  creator: string;
+  opened: boolean = true;
 
   constructor(
     @Inject(WEB3) private web3: Web3,
@@ -45,6 +47,12 @@ export class EthereumService {
 
   enter(entrance: Entrance): void {
     var num = entrance.number;
+
+    if(this.opened === false){
+      this.toastr.error("The lottery is closed!")
+      return;
+    }
+
     from(this.contract
       .methods.enter(entrance.number)
       .send({ from: this.subject.value[0], value: this.web3.utils.toWei("0.001", "ether") }))
@@ -77,12 +85,18 @@ export class EthereumService {
   pickTheWinner(): void {
     let userAccount = (this.subject.value[0]);
 
+    if (this.creator != userAccount) {
+      this.toastr.error("You are not the creator of this contract!")
+      return;
+    }
+
     from(this.contract
       .methods.determineWinner()
       .send({ from: userAccount })
       .on('receipt', () => {
-        this.toastr.success("The lottery " + this.addressSubject.value + " is closed!")
-        console.log("The lottery is closed!")
+        this.toastr.success("The lottery " + this.addressSubject.value + " is closed!");
+        console.log("The lottery is closed!");
+        this.opened = false;
       })
     ).subscribe(
       () => { },
@@ -112,7 +126,9 @@ export class EthereumService {
       this.toastr.success("Your new lottery is ready!");
 
       this.contract = new this.web3.eth.Contract(Abi, newContract.options.address);
-      this.addressSubject.next(newContract.options.address)
+      this.addressSubject.next(newContract.options.address);
+      this.creator = userAccount;
+      this.opened = true;
     }
     catch{
       (err => {
