@@ -23,7 +23,7 @@ export class EthereumService {
   contract: any;
   countOfEntrances$: Observable<number> = new Observable<number>();
   creator: string;
-  opened: boolean = true;
+  opened: boolean = false;
 
   constructor(
     @Inject(WEB3) private web3: Web3,
@@ -90,13 +90,13 @@ export class EthereumService {
       return;
     }
 
+    this.opened = false;
     from(this.contract
       .methods.determineWinner()
       .send({ from: userAccount })
       .on('receipt', () => {
         this.toastr.success("The lottery " + this.addressSubject.value + " is closed!");
         console.log("The lottery is closed!");
-        this.opened = false;
       })
     ).subscribe(
       () => { },
@@ -115,6 +115,12 @@ export class EthereumService {
   }
 
   async newLottery() {
+
+    if(this.opened){
+      this.toastr.error("You still have opened lottery!")
+      return;
+    }
+
     try {
       let userAccount = (this.subject.value[0])
       const newContract = await new this.web3.eth.Contract(Abi)
