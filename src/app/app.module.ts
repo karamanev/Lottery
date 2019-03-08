@@ -33,6 +33,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     EthereumService,
   
   ],
+  exports:[
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
