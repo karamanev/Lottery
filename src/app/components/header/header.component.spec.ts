@@ -8,9 +8,9 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ]
+      declarations: [HeaderComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +19,13 @@ describe('HeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create', async () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render navbar with user in the menu', async () => {
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('nav').textContent).toContain('User');
+  });
+
 });

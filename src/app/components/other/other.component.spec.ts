@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { EthereumService } from 'src/app/services/ethereum.service';
 import { ToastrModule } from 'ngx-toastr';
+import { EthereumServiceMock } from 'src/app/mocks/ethereum.service.mock';
 
 describe('OtherComponent', () => {
   let component: OtherComponent;
@@ -17,25 +18,25 @@ describe('OtherComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OtherComponent,
-         MainComponent,
+      declarations: [OtherComponent,
+        MainComponent,
         AppComponent,
         MainComponent,
         OtherComponent,
         HeaderComponent,
         AdminComponent
-      ],  imports: [
+      ], imports: [
         BrowserModule,
         FormsModule,
         AppRoutingModule,
         ToastrModule.forRoot(),
-      ],  providers: [
-        EthereumService,
-            ],
+      ], providers: [
+        { provide: EthereumService, useClass: EthereumServiceMock }
+      ],
 
 
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -45,6 +46,11 @@ describe('OtherComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeUndefined();
+    expect(component).toBeTruthy();
+  });
+
+  it('should render button check number', () => {
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('.btn').textContent).toContain('Check number');
   });
 });
