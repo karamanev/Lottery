@@ -24,7 +24,7 @@ export class EthereumServiceMock {
     }
 
     checkCountOfEntrances(): Observable<number> {
-        return from([0])
+        return from([1])
     }
 
     pickTheWinner(): void {

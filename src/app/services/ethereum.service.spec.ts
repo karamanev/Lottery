@@ -4,37 +4,36 @@ import { EthereumService } from './ethereum.service';
 import { WEB3 } from './web3';
 import { Web3Mock } from '../mocks/web3.mock';
 import { from } from 'rxjs';
+import { ToastrModule } from 'ngx-toastr';
+import Abi from './Abi';
+import Web3 from 'web3';
+//    @Inject(WEB3) private web3: Web3,
 
 describe('EthereumService', () => {
   let service: EthereumService;
 
 
-  beforeEach(() => TestBed.configureTestingModule({
+  beforeEach(() => {TestBed.configureTestingModule({
 
     providers: [
-      { provide: WEB3, useClass: Web3Mock }
+      { provide: WEB3, useValue: Web3Mock,
+      Web3 }
+    ], imports: [
+      ToastrModule.forRoot(),
     ],
-  }));
+  })
+});
 
-  beforeEach(async () => {
+  beforeEach( () => {
     var testBed = getTestBed();
     service = testBed.get(EthereumService)
-    console.log(service)
   })
-
 
   it('should be created', async () => {
     expect(service).toBeTruthy();
   });
 
-  it('should take count', async () => {
-    let expected = from ([['dssdsdsd']])
-
-    let res = service.checkStatus();
-
-    console.log(res)
-    expect(await service.checkByNumber(1)).toEqual(expected);
-  });
-
   
+
+
 });

@@ -27,8 +27,7 @@
               "src/assets/bootstrap.min.css",
               "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -88,6 +87,12 @@
             "assets": [
               "src/favicon.ico",
               "src/assets"
+            ],
+            "codeCoverageExclude": [
+              "src/app/mocks/ethereum.service.mock.ts",
+              "src/app/mocks/web3.mock.ts",
+              "src/app/services/ethereum.service.ts",
+              "src/app/services/web3.ts"
             ]
           }
         },

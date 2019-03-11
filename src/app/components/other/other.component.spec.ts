@@ -53,4 +53,26 @@ describe('OtherComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('.btn').textContent).toContain('Check number');
   });
+
+  it('checkByNumber should work correctly', () => {
+    const compiled = fixture.debugElement.nativeElement;
+    component.checkByNumber();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.numberDiv').textContent).toContain('Entrances for 0:  accountfortesting');
+  });
+
+  it('checkCountOfEntrances should work correctly', () => {
+    const compiled = fixture.debugElement.nativeElement;
+    component.checkCountOfEntrances();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.container').textContent).toContain('Check');
+  });
+
+  it('checkStatus should work correctly', () => {
+    const compiled = fixture.debugElement.nativeElement;
+    component.checkStatus();
+    fixture.detectChanges();
+    expect(compiled.querySelector('.numberDiv').textContent).toContain('Lottery status is: opened');
+  });
+
 });
